@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Gate Gaming - Admin</title>
+    <link rel="icon" href="/img/logo/gatelogo2.0.png">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/vendor/jquery.min.js"></script>
+    <script src="/js/vendor/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1 class="text-center my-4">Painel de Administração</h1>
+            <nav>
+                <ul class="nav justify-content-center">
+                    <li class="nav-item"><a class="nav-link" href="/">Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin">Admin</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Botões de Ação -->
+        <div class="text-center my-5">
+            <h2>Ações Administrativas</h2>
+            <button class="btn btn-primary my-2" data-toggle="modal" data-target="#addMachineModal">Adicionar Máquina</button>
+            <button class="btn btn-secondary my-2" data-toggle="modal" data-target="#associateMachineModal">Associar Máquina</button>
+           
+        </div>
+
+        <!-- Modal: Adicionar Máquina -->
+        <div class="modal fade" id="addMachineModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Adicionar Máquina</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addMachineForm">
+                            <div class="form-group">
+                                <label for="machineName">Nome da Máquina</label>
+                                <input type="text" class="form-control" id="machineName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="machineType">Tipo de Máquina</label>
+                                <input type="text" class="form-control" id="machineType" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="machineIp">IP da Máquina</label>
+                                <input type="text" class="form-control" id="machineIp" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="machineUser">Usuário da Máquina</label>
+                                <input type="text" class="form-control" id="machineUser" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="machinePassword">Senha da Máquina</label>
+                                <input type="password" class="form-control" id="machinePassword" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Adicionar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: Associar Máquina -->
+        <div class="modal fade" id="associateMachineModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Associar Máquina</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="associateMachineForm">
+                            <div class="form-group">
+                                <label for="userSelect">Selecionar Usuário:</label>
+                                <select id="userSelect" class="form-control" required>
+                                    <option value="">Selecione um usuário</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="machineSelect">Selecionar Máquina:</label>
+                                <select id="machineSelect" class="form-control" required>
+                                    <option value="">Selecione uma máquina</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-secondary">Associar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        
+
+    </div>
+
+    <script>
+        // Função para carregar usuários
+        function loadUsers() {
+            $.ajax({
+                url: '/getUsers', // Rota para obter usuários
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        const users = response.users;
+                        $('#userSelect, #userSelectPlan').empty().append('<option value="">Selecione um usuário</option>');
+                        users.forEach(user => {
+                            $('#userSelect, #userSelectPlan').append(`<option value="${user._id}">${user.username}</option>`); // Corrigido para 'username'
+                        });
+                    } else {
+                        alert('Erro ao carregar usuários.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Erro ao carregar usuários:", error);
+                    alert('Erro na comunicação com o servidor ao carregar usuários.');
+                }
+            });
+        }
+
+        // Função para carregar máquinas
+        function loadMachines() {
+            $.ajax({
+                url: '/getMachines', // Rota para obter máquinas
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        const machines = response.machines;
+                        $('#machineSelect').empty().append('<option value="">Selecione uma máquina</option>');
+                        machines.forEach(machine => {
+                            $('#machineSelect').append(`<option value="${machine._id}">${machine.name}</option>`);
+                        });
+                    } else {
+                        alert('Erro ao carregar máquinas.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Erro ao carregar máquinas:", error);
+                    alert('Erro na comunicação com o servidor ao carregar máquinas.');
+                }
+            });
+        }
+
+        // Chama as funções de carregamento ao abrir o modal de associar máquina
+        $('#associateMachineModal').on('show.bs.modal', function () {
+            loadUsers();
+            loadMachines();
+        });
+
+        // Evento de submissão para adicionar máquina
+        $('#addMachineForm').on('submit', function(event) {
+            event.preventDefault();
+            const machineName = $('#machineName').val();
+            const machineType = $('#machineType').val();
+            const machineIp = $('#machineIp').val();
+            const machineUser = $('#machineUser').val();
+            const machinePassword = $('#machinePassword').val();
+
+            $.ajax({
+                url: '/add-machine',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    name: machineName,
+                    type: machineType,
+                    ip: machineIp,
+                    user: machineUser,
+                    password: machinePassword
+                }),
+                success: function(response) {
+                    if (response.success) {
+                        alert('Máquina adicionada com sucesso!');
+                        $('#addMachineModal').modal('hide');
+                        $('#addMachineForm')[0].reset(); // Limpa o formulário
+                    } else {
+                        alert('Erro ao adicionar a máquina: ' + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Erro ao adicionar a máquina:", error);
+                    alert('Erro na comunicação com o servidor ao adicionar a máquina.');
+                }
+            });
+        });
+
+        // Evento de submissão para associar uma máquina automaticamente a um usuário
+$('#associateMachineForm').on('submit', function(event) {
+    event.preventDefault();
+    const userId = $('#userSelect').val();
+
+    if (!userId) {
+        alert('Por favor, selecione um usuário.');
+        return;
+    }
+
+    // Primeiramente, obtemos a primeira máquina disponível
+    $.ajax({
+        url: '/getAvailableMachine', // Rota para obter uma máquina disponível
+        type: 'GET',
+        success: function(response) {
+            if (response.success && response.machine) {
+                const machineId = response.machine._id; // Máquina disponível
+
+                // Agora associamos a máquina ao usuário
+                $.ajax({
+                    url: '/associate-machine',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        userId: userId,
+                        machineId: machineId
+                    }),
+                    success: function(associateResponse) {
+                        if (associateResponse.success) {
+                            alert('Máquina associada automaticamente com sucesso!');
+                            $('#associateMachineModal').modal('hide');
+                            $('#associateMachineForm')[0].reset(); // Limpa o formulário
+                        } else {
+                            alert('Erro ao associar a máquina: ' + associateResponse.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Erro ao associar a máquina:", error);
+                        alert('Erro na comunicação com o servidor ao associar a máquina.');
+                    }
+                });
+            } else {
+                alert('Nenhuma máquina disponível encontrada.');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Erro ao obter máquina disponível:", error);
+            alert('Erro na comunicação com o servidor ao obter uma máquina disponível.');
+        }
+    });
+});
+
+     // Evento de submissão para adicionar plano
+$('#addPlanForm').on('submit', function(event) {
+    event.preventDefault();
+    
+    const userId = $('#userSelectPlan').val();
+    const planName = $('#planName').val();
+    const planPrice = $('#planPrice').val();
+
+    // Envia os dados para o servidor via AJAX
+    $.ajax({
+        url: '/addPlan',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            userId: userId,
+            planName: planName,
+            planPrice: planPrice
+        }),
+        success: function(response) {
+            if (response.success) {
+                alert('Plano adicionado e máquina associada com sucesso!');
+                $('#addPlanModal').modal('hide');
+            } else {
+                alert(response.message || 'Erro ao adicionar plano.');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Erro ao adicionar plano:", error);
+            alert('Erro na comunicação com o servidor.');
+        }
+    });
+});
+
+
+        // Evento de submissão para adicionar dias (pode ser melhorado conforme sua lógica)
+        $('#addDaysForm').on('submit', function(event) {
+            event.preventDefault();
+            const days = $('#days').val();
+            // Implementar lógica para adicionar dias, conforme necessário
+            alert(`Você adicionou ${days} dias com sucesso!`);
+            $('#addDaysModal').modal('hide');
+            $('#addDaysForm')[0].reset(); // Limpa o formulário
+        });
+    </script>
+</body>
+</html>

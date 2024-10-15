@@ -1,0 +1,246 @@
+<!doctype html>
+<html class="no-js" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Gate Gaming - Login</title>
+
+    <!-- Favicon  -->
+    <link rel="icon" href="/img/logo/gatelogo2.0.png">
+
+    <!-- ***** All CSS Files ***** -->
+    <!-- Style css -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div id="gameon-preloader" class="gameon-preloader">
+        <!-- Preloader Animation -->
+        <div class="preloader-animation">
+            <div class="spinner"></div>
+            <p class="fw-5 text-center text-uppercase">Loading</p>
+        </div>
+        <div class="loader-animation">
+            <div class="row h-100">
+                <div class="col-3 single-loader p-0">
+                    <div class="loader-bg"></div>
+                </div>
+                <div class="col-3 single-loader p-0">
+                    <div class="loader-bg"></div>
+                </div>
+                <div class="col-3 single-loader p-0">
+                    <div class="loader-bg"></div>
+                </div>
+                <div class="col-3 single-loader p-0">
+                    <div class="loader-bg"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <header id="header">
+            <nav class="navbar gameon-navbar navbar-expand">
+                <div class="container header">
+                    <a class="navbar-brand" href="index.html">
+                        <img src="/img/logo/gatelogo2.0.png" alt="Brand Logo" />
+                    </a>
+                    <div class="ml-auto"></div>
+
+                    <!-- Navbar Nav -->
+                    <ul class="navbar-nav items mx-auto">
+                        <li class="nav-item active">
+                            <a href="index.html" class="nav-link active">Início</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link">Usuário <i class="icon-arrow-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item">
+                                    <a href="login.html" class="nav-link">Fazer Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="register.html" class="nav-link">Criar Conta</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="reset.html" class="nav-link">Esqueci a senha</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="blog.html" class="nav-link">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="planos.html" class="nav-link">Planos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="contact.html" class="nav-link">Entre em Contato</a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav icons">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#search">
+                                <i class="icon-magnifier"></i>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav toggle">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#menu">
+                                <i class="icon-menu m-0"></i>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav action">
+                        <li class="nav-item ml-2">
+                            <a href="login.html" class="btn ml-lg-auto btn-bordered-white"><i class="icon-wallet mr-md-2"></i>Área do Cliente</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </nav>
+        </header>
+
+        <!-- ***** Login Area Start ***** -->
+        <section class="apply-area vh-100">
+            <div class="container h-100">
+                <div class="row align-items-center justify-content-center h-100">
+                    <div class="col-12 col-md-7">
+                        <div class="apply-form card no-hover">
+                            <div class="intro d-flex justify-content-between align-items-end mb-4">
+                                <div class="intro-content">
+                                    <span class="intro-text">Login (Beta)</span>
+                                    <h3 class="mt-3 mb-0">Bem Vindo!</h3>
+                                </div>
+                            </div>
+
+                            <!-- Formulário de Login -->
+                            <form id="loginForm">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" placeholder="name@seuemail.com" required>
+                                    <small class="form-text mt-2">Coloque seu Email</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Senha</label>
+                                    <input type="password" id="password" required>
+                                </div>
+                                <div class="checkbox-area d-flex align-items-center justify-content-between">
+                                    <div class="form-group form-check mb-0">
+                                        <input type="checkbox" class="form-check-input" id="form-checkbox">
+                                        <label class="form-check-label" for="form-checkbox">Me Lembrar</label>
+                                    </div>
+                                    <a class="reset-link" href="reset.html">Esqueceu a Senha?</a>
+                                </div>
+                                <button type="submit" class="btn btn-bordered active my-4">Entrar <i class="icon-login ml-2"></i></button>
+                                <span class="notice d-block">Não tem Conta? <a href="register.html">Registre-se Agora!</a></span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ***** Login Area End ***** -->
+
+        <!-- Modal Search Area -->
+        <div id="search" class="modal fade p-0">
+            <div class="modal-dialog dialog-animated">
+                <div class="modal-content h-100">
+                    <div class="modal-header" data-dismiss="modal">
+                        Buscar <i class="far fa-times-circle icon-close"></i>
+                    </div>
+                    <div class="modal-body">
+                        <form class="row">
+                            <div class="col-12 align-self-center">
+                                <div class="row">
+                                    <div class="col-12 pb-3">
+                                        <h2 class="search-title mt-0 mb-3">O que você procura?</h2>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 input-group mt-md-4">
+                                        <input type="text" placeholder="Introduza suas palavras chave">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 input-group align-self-center">
+                                        <button class="btn btn-bordered-white mt-3">Pesquisar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Responsive Menu Area -->
+        <div id="menu" class="modal fade p-0">
+            <div class="modal-dialog dialog-animated">
+                <div class="modal-content h-100">
+                    <div class="modal-header" data-dismiss="modal">
+                        Menu <i class="far fa-times-circle icon-close"></i>
+                    </div>
+                    <div class="menu modal-body">
+                        <div class="row w-100">
+                            <div class="items p-0 col-12 text-center"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ***** All jQuery Plugins ***** -->
+    <script src="/js/vendor/jquery.min.js"></script>
+    <script src="/js/vendor/popper.min.js"></script>
+    <script src="/js/vendor/bootstrap.min.js"></script>
+    <script src="/js/vendor/all.min.js"></script>
+    <script src="/js/vendor/gallery.min.js"></script>
+    <script src="/js/vendor/slider.min.js"></script>
+    <script src="/js/vendor/countdown.min.js"></script>
+    <script src="/js/vendor/shuffle.min.js"></script>
+    <script src="/js/main.js"></script>
+
+    <!-- Script para login -->
+    <script>
+        $(document).ready(function() {
+            $('#loginForm').on('submit', function(event) {
+                event.preventDefault();
+                
+                // Pegar os dados do formulário
+                const email = $('#email').val();
+                const password = $('#password').val();
+
+                // Enviar dados ao backend via AJAX
+                $.ajax({
+                    url: '/login',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        email: email,
+                        password: password
+                    }),
+                    success: function(response) {
+                        if (response.success) {
+                            window.location.href = 'dashboard.html'; // Redireciona para a dashboard
+                        } else {
+                            alert('Falha no login: ' + response.message);
+                        }
+                    },
+                    error: function(err) {
+                        console.error('Erro no login:', err);
+                        alert('Erro ao tentar fazer login');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

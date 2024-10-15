@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Gate Gaming - Dashboard</title>
+    <link rel="icon" href="/img/logo/gatelogo2.0.png">
+    
+    <style>
+        body {
+            background-color: #0a1d4b; /* Azul escuro */
+            color: white;
+            font-family: 'Arial', sans-serif;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Adiciona um efeito de sombra ao título */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #0541aa, #03448a); /* Gradiente de azul */
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidade */
+            text-align: center;
+        }
+
+        .info-box-container {
+            display: flex;
+            justify-content: space-between; /* Distribui os itens lado a lado com espaço entre eles */
+            gap: 15px; /* Espaçamento entre os itens */
+        }
+
+        .info-box {
+            flex: 1; /* Faz com que os itens tenham a mesma largura */
+            background-color: rgba(255, 255, 255, 0.1); /* Transparente */
+            border-radius: 10px;
+            padding: 15px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .info-box i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        #ligarButton, .button-link {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Efeito de sombra */
+            margin-top: 20px;
+        }
+
+        #ligarButton:hover, .button-link:hover {
+            background-color: #0056b3;
+        }
+
+        .button-link {
+            display: inline-block;
+            text-decoration: none;
+            font-size: 1.1rem;
+            margin-top: 15px;
+        }
+
+        .notification {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            background-color: #28a745;
+            border-radius: 10px;
+            padding: 15px 20px;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adiciona sombra */
+            z-index: 1000;
+            font-size: 1.1rem;
+            display: none; /* Inicialmente oculto */
+        }
+        .text-center {
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="main">
+        <!-- ***** Dashboard Area Start ***** -->
+        <section class="dashboard-area">
+            <div class="container">
+                <h2 class="text-center">Dashboard Gate Cloud - Inovando a Tecnologia em nuvem!</h2>
+                <div id="machineInfo" class="mt-4">
+                    <!-- Aqui será exibida a informação da máquina -->
+                </div>
+                <div class="notification" id="notification">
+                    Sua máquina será ligada em até 1 hora, fique atento pois pode ser antes.
+                </div>
+            </div>
+        </section>
+        <!-- ***** Dashboard Area End ***** -->
+
+    </div>
+
+    <script src="/js/vendor/jquery.min.js"></script>
+    <script src="/js/vendor/bootstrap.min.js"></script>
+
+    <script>
+        let lastLigarTime = 0;
+        let machine = null; // Variável para armazenar informações da máquina
+
+        $(document).ready(function() {
+            // Requisição AJAX para buscar dados da máquina associada
+            $.ajax({
+                url: '/getMachine', // Rota que retorna as informações da máquina associada
+                type: 'GET',
+                contentType: 'application/json',
+                success: function(response) {
+                    console.log(response); // Log da resposta para depuração
+                    if (response.success) {
+                        // Acessa a máquina associada ao usuário
+                        machine = response.machine; // Armazena a máquina
+                        $('#machineInfo').html(`
+
+                            <div class="card">
+                                <h3>Sua Máquina Azure:</h3>
+                                <div class="info-box-container">
+                                    <div class="info-box"><i class="fas fa-desktop icon"></i><strong>IP:</strong> ${machine.ip}</div>
+                                    <div class="info-box"><i class="fas fa-user icon"></i><strong>Usuário:</strong> ${machine.user}</div>
+                                    <div class="info-box"><i class="fas fa-lock icon"></i><strong>Senha:</strong> ${machine.password}</div>
+                                </div>
+                             <h2>Sunshine</h2>
+                                <div class="info-box-container">
+                                    <div class="info-box"><i class="fas fa-user icon"></i><strong>Usuário Sunshine:</strong> Gategaming</div>
+                                    <div class="info-box"><i class="fas fa-lock icon"></i><strong>Senha Sunshine:</strong> Gate1234567@</div>
+                                </div>
+                                <button id="ligarButton">Ligar</button> <!-- Botão para ligar dentro da card -->
+                                <a id="liberarPinButton" href="https://${machine.ip}:47990/pin" class="button-link">Liberar PIN</a> <!-- Link "Liberar PIN" -->
+                            </div>
+                        `);
+                    } else {
+                        $('#machineInfo').html('<p>Sem assinatura.</p>'); // Atualizado para "sem assinatura"
+                    }
+                },
+                error: function(err) {
+                    console.error('Erro ao buscar dados da máquina:', err);
+                    $('#machineInfo').html('<p>Erro ao tentar carregar a máquina associada.</p>');
+                }
+            });
+
+            // Lógica para o botão Ligar
+            $(document).on('click', '#ligarButton', function() {
+                const currentTime = new Date().getTime();
+                if (currentTime - lastLigarTime < 18000000) { // 5 horas em milissegundos
+                    alert('Você deve esperar 5 horas para ligar a máquina novamente.');
+                    return;
+                }
+
+                // Requisição para o webhook
+                $.ajax({
+                    url: '/webhook', // Use a rota do servidor
+                    type: 'POST',
+                    contentType: 'application/json',
+
+                    data: JSON.stringify({ message: ` <@909932088562708490>   Máquina do IP: ${machine.ip} solicitou o ligamento.` }), // Usando a variável `machine`
+                    success: function() {
+                        // Mostra a notificação apenas após a resposta de sucesso da requisição AJAX
+                        $('#notification').fadeIn(); // Mostra a notificação
+                        setTimeout(function() {
+                            $('#notification').fadeOut(); // Oculta após 10 segundos
+                        }, 10000); // Oculta após 10 segundos
+                    },
+                    error: function(err) {
+                        console.error('Erro ao enviar mensagem para o webhook:', err);
+                    }
+                });
+
+                lastLigarTime = currentTime; // Atualiza o tempo do último clique
+            });
+
+            $(document).on('click', '#liberarPinButton', function() {
+                console.log('Link "Liberar PIN" clicado.'); // Log para depuração
+                if (machine) { // Verifica se a máquina está disponível
+                    const ip = machine.ip; // Usa o IP da máquina
+                    const pinUrl = `https://${ip}:47990/pin`; // URL para o serviço de PIN
+                    console.log('Tentando acessar:', pinUrl); // Log da URL
+                    fetch(pinUrl)
+                        .then(response => {
+                            if (response.ok) {
+                                console.log('Acesso bem-sucedido ao serviço de PIN.');
+                                window.open(pinUrl, '_blank'); // Abre em nova aba
+                            } else {
+                                console.error('Erro ao acessar o serviço de PIN:', response.status, response.statusText);
+                                alert('Erro ao acessar o serviço de PIN. Verifique a URL e o serviço.');
+                            }
+                        })
+                        .catch(err => {
+                            console.error('Erro ao acessar o serviço de PIN:', err);
+                            alert('Erro ao acessar o serviço de PIN. Verifique a conexão.');
+                        });
+                } else {
+                    alert('Não foi possível liberar o PIN, a máquina não está disponível.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
